@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const url = 'https://playshinobirevenge.com/clan-rank-realtime'; // Cambia esto a la URL que necesites
+const url = 'https://playshinobirevenge.com/clan-ranking'; // Cambia esto a la URL que necesites
 const requestsPerSecond = 500;
 const totalRequests = 9000000; // Número total de solicitudes que deseas enviar
 
