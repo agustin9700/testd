@@ -1,8 +1,8 @@
 const axios = require('axios');
 
 const url = 'https://example.com'; // Cambia esto a la URL que necesites
-const requestsPerSecond = 1000;
-const totalRequests = 10000; // Número total de solicitudes que deseas enviar
+const requestsPerSecond = 500;
+const totalRequests = 9000000; // Número total de solicitudes que deseas enviar
 
 let sentRequests = 0;
 
@@ -31,4 +31,4 @@ const startSendingRequests = () => {
 };
 
 // Exporta la función que inicia el envío de solicitudes
-module.exports =  startSendingRequests ;
+module.exports = startSendingRequests;
