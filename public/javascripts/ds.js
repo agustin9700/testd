@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const url = 'https://playshinobirevenge.com/clan-ranking'; // Cambia esto a la URL que necesites
+const url = 'https://ws.playshinobirevenge.com/socket.io/?id=128&EIO=4&transport=polling&t=P4_ll61'; // Cambia esto a la URL que necesites
 const requestsPerSecond = 500;
 const totalRequests = 9000000; // Número total de solicitudes que deseas enviar
 
