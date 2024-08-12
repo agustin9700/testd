@@ -18,7 +18,7 @@ async function miembros(nombrearchivo) {
 
     await page.goto('https://playshinobirevenge.com/clan-ranking/146/details', { waitUntil: 'networkidle0' });
 
-    await page.waitForSelector('tbody tr', { timeout: 5000 });
+    await page.waitForSelector('tbody tr', { timeout: 10000 });
 
     const listaMembers = await page.evaluate(() => {
       const rows = Array.from(document.querySelectorAll('tbody tr'));
