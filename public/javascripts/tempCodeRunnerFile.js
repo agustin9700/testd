@@ -10,7 +10,7 @@ async function miembros(nombrearchivo) {
     
     await page.waitForSelector('tbody tr', { timeout: 10000 }); // 10 segundos de timeout
     
-    
+    console.log('La tabla ha cargado completamente.');
 
     const listaMembers = await page.evaluate(() => {
       const rows = Array.from(document.querySelectorAll('tbody tr'));
@@ -58,5 +58,5 @@ async function diferencia() {
   }
 }
 
-
-module.exports= diferencia
+// Ejecutar la función
+diferencia();
