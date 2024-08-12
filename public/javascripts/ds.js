@@ -1,9 +1,18 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
+require("dotenv").config
 
 async function miembros(nombrearchivo) {
   try {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      args:[
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--single-process",
+        "--no-zygote",
+      ]
+      executablePath: process.env.PUPPERTEER_EXECUTABLE_PATH,
+    });
 
     ;
     const page = await browser.newPage();
