@@ -4,15 +4,7 @@ require('dotenv').config(); // Added parentheses
 
 async function miembros(nombrearchivo) {
   try {
-    const browser = await puppeteer.launch({
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--single-process",
-        "--no-zygote",
-      ],
-      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH, // Corrected variable name
-    });
+    const browser = await puppeteer.launch();
 
     const page = await browser.newPage();
 
