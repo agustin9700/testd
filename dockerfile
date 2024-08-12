@@ -10,11 +10,18 @@ WORKDIR /app
 # Copy the package.json and package-lock.json (if present)
 COPY package*.json ./
 
-# Install Node.js dependencies
+# Install Node.js dependencies as root
+USER root
 RUN npm install
 
 # Copy the rest of the application code
 COPY . .
+
+# Change ownership of application files to non-root user
+RUN chown -R pptruser:pptruser /app
+
+# Switch to non-root user
+USER pptruser
 
 # Command to run the application
 CMD ["node", "./bin/www"]
