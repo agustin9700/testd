@@ -5,7 +5,7 @@ require('dotenv').config(); // Asegúrate de que .env esté configurado correcta
 async function miembros(nombrearchivo) {
   try {
     const browser = await puppeteer.launch({
-      executablePath: '/usr/bin/google-chrome', // Cambia esta ruta según tu instalación
+      executablePath: '/usr/bin/chromium-browser', // Cambia esta ruta según tu instalación
     });
 
     const page = await browser.newPage();
