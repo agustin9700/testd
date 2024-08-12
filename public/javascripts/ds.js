@@ -1,18 +1,15 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
-require('dotenv').config(); // Added parentheses
+require('dotenv').config(); // Asegúrate de que .env esté configurado correctamente
 
 async function miembros(nombrearchivo) {
   try {
     const browser = await puppeteer.launch({
-      executablePath: '/opt/render/.cache/puppeteer',
-      // Otras opciones de configuración
+      // Si tienes problemas con la ruta del ejecutable, puedes omitir esta opción
     });
 
     const page = await browser.newPage();
-
     await page.goto('https://playshinobirevenge.com/clan-ranking/146/details', { waitUntil: 'networkidle0' });
-
     await page.waitForSelector('tbody tr', { timeout: 10000 });
 
     const listaMembers = await page.evaluate(() => {
@@ -27,7 +24,6 @@ async function miembros(nombrearchivo) {
     });
 
     fs.writeFileSync(nombrearchivo, JSON.stringify(listaMembers, null, 2));
-
     await browser.close();
     return listaMembers;
   } catch (error) {
@@ -38,7 +34,7 @@ async function miembros(nombrearchivo) {
 
 async function diferencia() {
   try {
-    for (let i = 0; i < 99999; i++) { // Infinite loop - Ensure this is what you want
+    for (let i = 0; i < 99999; i++) { // Bucle infinito - Asegúrate de que esto es lo que deseas
       console.log('\x1b[32m%s\x1b[0m', `Ejecución datos 10s: ${i}`);
       const datos = await miembros(`datos10s.json`);
 
