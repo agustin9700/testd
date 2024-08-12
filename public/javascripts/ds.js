@@ -3,9 +3,7 @@ const fs = require('fs');
 
 async function miembros(nombrearchivo) {
   try {
-    const browser = await puppeteer.launch({
-      executablePath: '/opt/render/.cache/puppeteer/chrome-linux/chrome', // Ruta al ejecutable de Chrome
-  });
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
     
     await page.goto('https://playshinobirevenge.com/clan-ranking/146/details', { waitUntil: 'networkidle0' });
