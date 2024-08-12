@@ -4,7 +4,10 @@ require('dotenv').config(); // Added parentheses
 
 async function miembros(nombrearchivo) {
   try {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      executablePath: '/opt/render/.cache/puppeteer).',
+      // Otras opciones de configuración
+    });
 
     const page = await browser.newPage();
 
