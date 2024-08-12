@@ -8,7 +8,7 @@ async function miembros(nombrearchivo) {
     
     await page.goto('https://playshinobirevenge.com/clan-ranking/146/details', { waitUntil: 'networkidle0' });
     
-    await page.waitForSelector('tbody tr', { timeout: 10000 }); // 10 segundos de timeout
+    await page.waitForSelector('tbody tr', { timeout: 5000 }); // 10 segundos de timeout
     
     
 
@@ -17,8 +17,8 @@ async function miembros(nombrearchivo) {
       return rows.map(row => {
         const columns = row.querySelectorAll('td');
         return {
-          name: columns[1]?.textContent?.trim() || '',
-          reputation: parseInt(columns[3]?.textContent?.trim() || '0', 10)
+          name: columns[0]?.textContent?.trim() || '',
+          reputation: parseInt(columns[2]?.textContent?.trim() || '0', 10)
         };
       });
     });
@@ -39,7 +39,7 @@ async function diferencia() {
       console.log('\x1b[32m%s\x1b[0m', `Ejecución datos 10s: ${i}`);
       const datos = await miembros(`datos10s.json`);
 
-      await new Promise(resolve => setTimeout(resolve, 10000));
+      await new Promise(resolve => setTimeout(resolve, 5000));
       const nuevosDatos = await miembros(`nuevosdatos10s.json`);
 
       const resultadosResto = nuevosDatos.map((nuevoDato, index) => ({
