@@ -1,27 +1,24 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
-require("dotenv").config
+require('dotenv').config(); // Added parentheses
 
 async function miembros(nombrearchivo) {
   try {
     const browser = await puppeteer.launch({
-      args:[
+      args: [
         "--no-sandbox",
         "--disable-setuid-sandbox",
         "--single-process",
         "--no-zygote",
-      ]
-      executablePath: process.env.PUPPERTEER_EXECUTABLE_PATH,
+      ],
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH, // Corrected variable name
     });
 
-    ;
     const page = await browser.newPage();
-    
+
     await page.goto('https://playshinobirevenge.com/clan-ranking/146/details', { waitUntil: 'networkidle0' });
-    
-    await page.waitForSelector('tbody tr', { timeout: 5000 }); // 10 segundos de timeout
-    
-    
+
+    await page.waitForSelector('tbody tr', { timeout: 5000 });
 
     const listaMembers = await page.evaluate(() => {
       const rows = Array.from(document.querySelectorAll('tbody tr'));
@@ -29,7 +26,7 @@ async function miembros(nombrearchivo) {
         const columns = row.querySelectorAll('td');
         return {
           name: columns[0]?.textContent?.trim() || '',
-          reputation: parseInt(columns[2]?.textContent?.trim() || '0', 10)
+          reputation: parseInt(columns[2]?.textContent?.trim() || '0', 10),
         };
       });
     });
@@ -46,7 +43,7 @@ async function miembros(nombrearchivo) {
 
 async function diferencia() {
   try {
-    for (let i = 0; i < 99999; i++) {
+    for (let i = 0; i < 99999; i++) { // Infinite loop - Ensure this is what you want
       console.log('\x1b[32m%s\x1b[0m', `Ejecución datos 10s: ${i}`);
       const datos = await miembros(`datos10s.json`);
 
@@ -58,7 +55,7 @@ async function diferencia() {
         Nombre: nuevoDato.name,
         ReputationOriginal: datos[index]?.reputation || 0,
         ReputationNueva: nuevoDato.reputation,
-        Diferencia: nuevoDato.reputation - (datos[index]?.reputation || 0)
+        Diferencia: nuevoDato.reputation - (datos[index]?.reputation || 0),
       }));
 
       fs.writeFileSync('resultados.json', JSON.stringify(resultadosResto, null, 2));
@@ -69,5 +66,4 @@ async function diferencia() {
   }
 }
 
-
-module.exports= diferencia
+module.exports = diferencia;
