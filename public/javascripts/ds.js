@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 
-(async () => {
+async function run (){
   const browser = await puppeteer.launch({
     executablePath: '', // Ruta al navegador
     headless: true // O false si quieres ver el navegador
@@ -11,4 +11,5 @@ const puppeteer = require('puppeteer');
   console.log(await page.title());
 
   await browser.close();
-})();
+};
+module.exports=run
