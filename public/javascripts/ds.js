@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer-core');
 
 async function run() {
   const browser = await puppeteer.launch({
-    executablePath: '', // Asegúrate de que esta ruta sea correcta
+    executablePath: '/opt/render/.cache/puppeteer/', // Asegúrate de que esta ruta sea correcta
     headless: true,
   });
 
