@@ -54,11 +54,21 @@
 
 const puppeteer = require('puppeteer');
 const fs = require('fs');
+require("dotenv").config();
 
 
 async function miembros(nombrearchivo) {
   try {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      args:[
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        "single-process",
+        "no-zygote",
+      ],
+      executablePath:
+      process.eventNames.NODE_ENV === "production" ? process.env.PUPPETEER_EXECUTABLE_PATH: puppeteer.executablePath(),
+    });
 
     const page = await browser.newPage();
     await page.goto('https://playshinobirevenge.com/clan-ranking/146/details', { waitUntil: 'networkidle0' });
