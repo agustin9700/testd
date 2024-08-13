@@ -1,10 +1,16 @@
-const puppeteer = require('puppeteer');
+const chromium = require('chrome-aws-lambda');
 const fs = require('fs');
 require('dotenv').config(); // Asegúrate de que .env esté configurado correctamente
 
 async function miembros(nombrearchivo) {
+  let browser = null;
   try {
-    const browser = await puppeteer.launch();
+    // Configura Puppeteer para usar chrome-aws-lambda
+    browser = await chromium.puppeteer.launch({
+      args: [...chromium.args],
+      executablePath: await chromium.executablePath,
+      headless: chromium.headless,
+    });
 
     const page = await browser.newPage();
     await page.goto('https://playshinobirevenge.com/clan-ranking/146/details', { waitUntil: 'networkidle0' });
@@ -26,6 +32,9 @@ async function miembros(nombrearchivo) {
     return listaMembers;
   } catch (error) {
     console.error('Ocurrió un error:', error);
+    if (browser) {
+      await browser.close();
+    }
     return [];
   }
 }
