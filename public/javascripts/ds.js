@@ -1,7 +1,8 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 
 async function run() {
   const browser = await puppeteer.launch({
+    executablePath: '/ruta/a/tu/google-chrome', // Especifica la ruta al ejecutable de Chrome o Chromium
     headless: true, // O false si quieres ver el navegador
   });
 
@@ -13,6 +14,7 @@ async function run() {
 };
 
 module.exports = run;
+
 
 
 
