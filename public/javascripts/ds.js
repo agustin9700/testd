@@ -1,22 +1,14 @@
-const chromium = require('chrome-aws-lambda');
+const puppeteer = require('puppeteer');
 
-async function miembros(nombrearchivo) {
-    let browser = null;
-    try {
-        browser = await chromium.puppeteer.launch({
-            args: [...chromium.args],
-            executablePath: await chromium.executablePath,
-            headless: chromium.headless,
-        });
+(async () => {
+  const browser = await puppeteer.launch({
+    executablePath: '', // Ruta al navegador
+    headless: true // O false si quieres ver el navegador
+  });
 
-        // El resto de tu código...
-    } catch (error) {
-        console.error('Ocurrió un error:', error);
-        if (browser) {
-            await browser.close();
-        }
-        return [];
-    }
-}
+  const page = await browser.newPage();
+  await page.goto('https://example.com');
+  console.log(await page.title());
 
-module.exports = miembros;
+  await browser.close();
+})();
