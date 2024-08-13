@@ -3,6 +3,7 @@ const puppeteer = require('puppeteer');
 async function run (){
   const browser = await puppeteer.launch({
     executablePath: '', // Ruta al navegador
+    userDataDir: "/opt/render/.cache/puppeteer/chrome/linux-127.0.6533.99/chrome-linux64/chrome",
     headless: true // O false si quieres ver el navegador
   });
 
