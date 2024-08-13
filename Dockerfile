@@ -1,8 +1,6 @@
 FROM node:18
 
 # Install latest chrome dev package and fonts to support major charsets (Chinese, Japanese, Arabic, Hebrew, Thai and a few others)
-# Note: this installs the necessary libs to make the bundled version of Chromium that Puppeteer
-# installs, work.
 RUN apt-get update \
     && apt-get install -y wget gnupg \
     && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
@@ -15,12 +13,15 @@ RUN apt-get update \
 # Create working directory
 WORKDIR /app
 
-# Install Puppeteer under /app/node_modules
-COPY package.json ./
-RUN npm install
+# Copy package.json and install dependencies
+COPY package.json package-lock.json ./
+RUN npm ci
 
 # Copy the rest of your app's source code
 COPY . .
+
+# Set the Chrome executable path
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
 
 # Run your app
 CMD ["node", "./bin/www"]
