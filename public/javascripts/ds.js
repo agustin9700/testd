@@ -57,6 +57,15 @@ require("dotenv").config();
 
 async function miembros(nombrearchivo) {
   try {
+    console.log('NODE_ENV:', process.env.NODE_ENV);
+    console.log('PUPPETEER_EXECUTABLE_PATH:', process.env.PUPPETEER_EXECUTABLE_PATH);
+
+    const executablePath = process.env.NODE_ENV === "production"
+      ? process.env.PUPPETEER_EXECUTABLE_PATH
+      : puppeteer.executablePath();
+
+    console.log('Attempting to launch browser with executable path:', executablePath);
+
     const browser = await puppeteer.launch({
       args: [
         '--no-sandbox',
@@ -64,11 +73,11 @@ async function miembros(nombrearchivo) {
         "--single-process",
         "--no-zygote",
       ],
-      executablePath: process.env.NODE_ENV === "production"
-        ? process.env.PUPPETEER_EXECUTABLE_PATH
-        : puppeteer.executablePath(),
-      headless: "new"  // Use new headless mode
+      executablePath: executablePath,
+      headless: "new"
     });
+
+    console.log('Browser launched successfully');
 
     const page = await browser.newPage();
     await page.goto('https://playshinobirevenge.com/clan-ranking/146/details', { waitUntil: 'networkidle0' });
@@ -90,6 +99,10 @@ async function miembros(nombrearchivo) {
     return listaMembers;
   } catch (error) {
     console.error('Ocurrió un error:', error);
+    if (error.message.includes('Tried to find the browser at the configured path')) {
+      console.error('Chrome executable not found. Please check the PUPPETEER_EXECUTABLE_PATH environment variable.');
+      console.error('Current PUPPETEER_EXECUTABLE_PATH:', process.env.PUPPETEER_EXECUTABLE_PATH);
+    }
     return [];
   }
 }
