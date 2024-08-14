@@ -3,10 +3,7 @@ const fs = require('fs');
 require('dotenv').config(); // Asegúrate de que .env esté configurado correctamente
 async function miembros(nombrearchivo) {
   try {
-    const browser = await puppeteer.launch({
-       // Cambia esta ruta según tu instalación
-      executablePath: '/usr/bin/chromium-browser', // Cambia esta ruta según tu instalación
-    });
+    const browser = await puppeteer.launch();
 
     const page = await browser.newPage();
     await page.goto('https://playshinobirevenge.com/clan-ranking/146/details', { waitUntil: 'networkidle0' });
