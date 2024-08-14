@@ -16,6 +16,9 @@ COPY . .
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
 
+# Create a directory for temporary files with appropriate permissions
+RUN mkdir /tmp/puppeteer_results && chmod 777 /tmp/puppeteer_results
+
 # Expose the port your app runs on
 EXPOSE 3000
 

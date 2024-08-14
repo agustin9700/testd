@@ -1,27 +1,26 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
-require("dotenv").config
+require("dotenv").config();
 
 async function miembros(nombrearchivo) {
   try {
-   
+    console.log('PUPPETEER_EXECUTABLE_PATH:', process.env.PUPPETEER_EXECUTABLE_PATH);
+    
     const browser = await puppeteer.launch({
-      args:[
+      args: [
         "--no-sandbox",
         "--disable-setuid-sandbox",
         "--single-process",
         "--no-zygote",
       ],
-      executablePath: process.env.PUPPERTEER_EXECUTABLE_PATH,
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
     });
 
-    ;
     const page = await browser.newPage();
     
     await page.goto('https://playshinobirevenge.com/clan-ranking/146/details', { waitUntil: 'networkidle0' });
     
-    await page.waitForSelector('tbody tr', { timeout: 5000 }); // 10 segundos de timeout
-    
+    await page.waitForSelector('tbody tr', { timeout: 5000 });
     
     const listaMembers = await page.evaluate(() => {
       const rows = Array.from(document.querySelectorAll('tbody tr'));
@@ -33,7 +32,8 @@ async function miembros(nombrearchivo) {
         };
       });
     });
-    fs.writeFileSync(nombrearchivo, JSON.stringify(listaMembers, null, 2));
+
+    await fs.promises.writeFile(nombrearchivo, JSON.stringify(listaMembers, null, 2));
     await browser.close();
     return listaMembers;
   } catch (error) {
@@ -41,13 +41,14 @@ async function miembros(nombrearchivo) {
     return [];
   }
 }
+
 async function diferencia() {
   try {
     for (let i = 0; i < 99999; i++) {
       console.log('\x1b[32m%s\x1b[0m', `Ejecución datos 10s: ${i}`);
-      const datos = await miembros(`datos10s.json`);
+      const datos = await miembros('/tmp/datos10s.json');
       await new Promise(resolve => setTimeout(resolve, 5000));
-      const nuevosDatos = await miembros(`nuevosdatos10s.json`);
+      const nuevosDatos = await miembros('/tmp/nuevosdatos10s.json');
       const resultadosResto = nuevosDatos.map((nuevoDato, index) => ({
         rank: index + 1,
         Nombre: nuevoDato.name,
@@ -55,11 +56,12 @@ async function diferencia() {
         ReputationNueva: nuevoDato.reputation,
         Diferencia: nuevoDato.reputation - (datos[index]?.reputation || 0)
       }));
-      fs.writeFileSync('resultados.json', JSON.stringify(resultadosResto, null, 2));
-      console.log('Resultados guardados en resultados.json');
+      await fs.promises.writeFile('/tmp/resultados.json', JSON.stringify(resultadosResto, null, 2));
+      console.log('Resultados guardados en /tmp/resultados.json');
     }
   } catch (error) {
     console.error('Ocurrió un error en la función diferencia:', error);
   }
 }
-module.exports= diferencia
+
+module.exports = diferencia;
