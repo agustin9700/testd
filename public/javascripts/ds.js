@@ -3,7 +3,12 @@ const fs = require('fs');
 require('dotenv').config(); // Asegúrate de que .env esté configurado correctamente
 async function miembros(nombrearchivo) {
   try {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/google-chrome-stable',
+      headless: true, // Modo headless para que corra en segundo plano
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    });
+    
 
     const page = await browser.newPage();
     await page.goto('https://playshinobirevenge.com/clan-ranking/146/details', { waitUntil: 'networkidle0' });
